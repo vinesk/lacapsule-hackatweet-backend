@@ -4,10 +4,10 @@ var router = express.Router();
 require("../models/connection");
 const Tweet = require("../models/tweet");
 const User = require("../models/users");
-const Trends = require("../models/trends");
+const Trend = require("../models/trend");
 
 
-router.post('/add', (req, res) => {
+router.post('/addTweet', (req, res) => {
 
    User.findOne({ token : req.body.token}).then(dataUser => {
     console.log(dataUser)
@@ -21,7 +21,7 @@ router.post('/add', (req, res) => {
             });
           newTweet.save().then(newDoc => {res.json({ result: true , id : newDoc.id}) })
        }else{
-            res.json({ result: false, error: 'User not find' });
+            res.json({ result: false, error: 'pas de user' });
        }
 
    })
@@ -35,14 +35,14 @@ router.get("/", (req, res) => {
     .then((dataTweet) => {
       const dataToSendTweets = [];
       if (dataTweet) {
-        for (let item of dataTweet) {
+        for (let e of dataTweet) {
           dataToSendTweets.push({
-            firstName: item.user.firstName,
-            userName: item.user.userName,
-            message: item.message,
-            date: item.date,
-            likes: item.likes,
-            hashtags: item.hashtags,
+            firstname: e.user.firstname,
+            username: e.user.username,
+            message: e.message,
+            date: e.date,
+            likes: e.likes,
+            hashtags: e.hashtags,
           });
         }
         res.json({ result: true, data: dataToSendTweets });
@@ -75,15 +75,15 @@ router.post("/like", (req, res) => {
               if (dataTweet) {
                 res.json({ result: true });
               } else {
-                res.json({ result: false, error: "Tweets not update" });
+                res.json({ result: false, error: "tweet pas trouvé" });
               }
             }); 
           } else {
-            res.json({ result: false, error: "User not find" });
+            res.json({ result: false, error: "pas d'user" });
           }
         }); 
       } else {
-        res.json({ result: false, error: "Tweets not found" });
+        res.json({ result: false, error: "pas trouvé" });
       }
     });
 });
