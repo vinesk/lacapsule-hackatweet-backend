@@ -8,8 +8,8 @@ const User = require("../models/users");
 
 router.post('/addTweet', (req, res) => {
 
-   User.findOne({ token : req.body.token}).then(dataUser => {
-    console.log(dataUser)
+   User.findOne({ token : req.body.token})
+   .then(dataUser => {
        if(dataUser){
             const newTweet = new Tweet({
                 user : dataUser.id,
@@ -18,7 +18,9 @@ router.post('/addTweet', (req, res) => {
                 likes: [],
                 hashtags: req.body.hashtags,
             });
-          newTweet.save().then(newDoc => {res.json({ result: true , id : newDoc.id}) })
+          newTweet.save().then(newDoc => {
+            res.json({ result: true , id : newDoc.id}) 
+          })
        }else{
             res.json({ result: false, error: 'pas de user' });
        }
@@ -56,21 +58,23 @@ router.post("/like", (req, res) => {
     .populate("likes")
     .then((dataTweet) => {
       if (dataTweet) {
-        User.findOne({ token: req.body.token }).then((dataUser) => {
+        User.findOne({ token: req.body.token })
+        .then((dataUser) => {
           if (dataUser) {
             let newLikes = dataTweet.likes;
            
-            if (!dataTweet.likes.some((elt) => elt.id === dataUser.id)) {
+            if (!dataTweet.likes.some((e) => e.id === dataUser.id)) {
             
               newLikes.push(dataUser.id);
             } else {
-              newLikes = newLikes.filter((elt) => elt.id !== dataUser.id);
+              newLikes = newLikes.filter((e) => e.id !== dataUser.id);
             }
 
             Tweet.findOneAndUpdate(
               { message: req.body.message },
               { $set: { likes: newLikes } }
-            ).then((dataTweet) => {
+            )
+            .then((dataTweet) => {
               if (dataTweet) {
                 res.json({ result: true });
               } else {
