@@ -7,8 +7,7 @@ const Trend= require('../models/trend');
 
 router.post('/addTrend', (req, res) => {
 
-    Trend.findOneAndUpdate({ hashtag : req.body.hashtag},
-        {'$push': {tweets: req.body.idTweet}})
+    Trend.findOneAndUpdate({ hashtag : req.body.hashtag}, {'$push': {tweets: req.body.idTweet}})
         .then(dataTrends => {
         if(!dataTrends){
 
