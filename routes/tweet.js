@@ -6,7 +6,7 @@ const Tweet = require('../models/tweet');
 router.post('/tweet', async (req, res) => {
 
         if (data === null) {
-            return res.status(400).json({ error: 'faut écrire voyons' });
+            return res.json({ result: false, error: 'faut écrire voyons' });
         }
         const newTweet = new Tweet({
             tweet : req.body.tweet
