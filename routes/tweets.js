@@ -16,7 +16,7 @@ router.post("/add", (req, res) => {
         hashtags: req.body.hashtags,
       });
       newTweet.save().then((newDoc) => {
-        res.json({ result: true, id: newDoc.id });
+        res.json({ result: true, id: newDoc});
       });
     } else {
       res.json({ result: false, error: "pas de user" });
