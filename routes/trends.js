@@ -2,8 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 require("../models/connection");
-const Tweet = require('../models/tweet');
-const User = require('../models/users');
+
 const Trend= require('../models/trend');
 
 router.post('/addTrend', (req, res) => {
