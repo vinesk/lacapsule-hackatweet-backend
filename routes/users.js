@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 //route pour se signup 
 router.post('/signup', (req, res) => {
   if (!checkBody(req.body, ['firstname', 'username', 'password'])) {
-    res.json({ result: false, error: 'Missing or empty fields' });
+    res.json({ result: false, error: 'remplis les champs obligatoires avant de cliquer sur sign up' });
     return;
   }
 
@@ -30,15 +30,15 @@ router.post('/signup', (req, res) => {
         res.json({ result: true, token: newDoc.token });
       });
     } else {
-      res.json({ result: false, error: 'User already exists' });
+      res.json({ result: false, error: 'tu es déjà inscrit!' });
     }
   });
 });
 
-//route sign in
+//route pour se sign in
 router.post('/signin', (req, res) => {
   if (!checkBody(req.body, ['username', 'password'])) {
-    res.json({ result: false, error: 'Missing or empty fields' });
+    res.json({ result: false, error: 'faut remplir les espaces vides' });
     return;
   }
 
@@ -46,7 +46,7 @@ router.post('/signin', (req, res) => {
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
       res.json({ result: true, token: data.token});
     } else {
-      res.json({ result: false, error: 'User not found' });
+      res.json({ result: false, error: 'essaie encore' });
     }
   });
 });
