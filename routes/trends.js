@@ -7,8 +7,9 @@ const Trend= require('../models/trend');
 
 router.post('/addTrend', (req, res) => {
 
-    Trend.findOneAndUpdate({ hashtag : req.body.hashtag},{'$push': {tweets
-    : req.body.idTweet}}).then(dataTrends => {
+    Trend.findOneAndUpdate({ hashtag : req.body.hashtag},
+        {'$push': {tweets: req.body.idTweet}})
+        .then(dataTrends => {
         if(!dataTrends){
 
             const newTrend = new Trend({
@@ -16,7 +17,9 @@ router.post('/addTrend', (req, res) => {
             tweets: [req.body.idTweet],
             });
 
-            newTrend.save().then(newTrend => {newTrend !== null ? res.json({ result: true}) : res.json({ result: false}) })
+            newTrend.save().then(newTrend => {
+                newTrend !== null ? res.json({ result: true}) : res.json({ result: false}) 
+            })
         }else{
             {res.json({ result: true}) }
         }
@@ -25,7 +28,7 @@ router.post('/addTrend', (req, res) => {
 
 
 router.get('/allTrends', (req, res) => {
-    Trend.find({ }).then(dataTrends => {
+    Trend.find({ }).then(dataTrends => {
         console.log('trends', dataTrends);
         if(dataTrends){
 
@@ -33,7 +36,7 @@ router.get('/allTrends', (req, res) => {
         }else{
             res.json({ result: false, error: 'ya pas de trends' });
         }
-      });
+     });
 })
 
 module.exports = router;
