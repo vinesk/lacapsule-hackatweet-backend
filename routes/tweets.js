@@ -53,10 +53,19 @@ router.get("/", (req, res) => {
     });
 });
 
+router.delete('/users/:tweets', (req, res) => {
+  if (tweetIndex !== -1) {
+    const deletedTweet = tweet.splice(tweetIndex, 1)[0]; 
+    res.json({ result: true, deletedTweet });
+  } else {
+    res.json({ result: false, error: 'tweet not found' });
+  }
+});
+
 router.post("/like", (req, res) => {
   Tweet.findOne({ message: req.body.message }).populate("likes")
     .then((dataTweet) => {
-      
+
       if (dataTweet) {
         User.findOne({ token: req.body.token })
         .then((dataUser) => {
