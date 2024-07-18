@@ -17,6 +17,10 @@ router.post('/tweet', async (req, res) => {
         res.status(201).json(savedTweet);
     })
 
+router.get('/tweet', (req, res) => {
+    res.json({ tweet: req.body.tweet})
+
+})
 
 
 module.exports = router;
