@@ -30,9 +30,9 @@ router.post('/addTweet', (req, res) => {
 
 
 router.get("/", (req, res) => {
-  const dataToSend = [];
-  Tweet.find({})
-    .populate("user")
+
+  Tweet.find({}).populate("user")
+
     .then((dataTweet) => {
       const dataToSendTweets = [];
       if (dataTweet) {
@@ -54,9 +54,9 @@ router.get("/", (req, res) => {
 });
 
 router.post("/like", (req, res) => {
-  Tweet.findOne({ message: req.body.message })
-    .populate("likes")
+  Tweet.findOne({ message: req.body.message }).populate("likes")
     .then((dataTweet) => {
+      
       if (dataTweet) {
         User.findOne({ token: req.body.token })
         .then((dataUser) => {
