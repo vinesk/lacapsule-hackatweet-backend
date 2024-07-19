@@ -6,6 +6,7 @@ const { checkBody } = require("../modules/checkbody");
 const uid2 = require("uid2");
 const bcrypt = require("bcrypt");
 
+
 //route pour se signup
 router.post("/signup", (req, res) => {
   if (!checkBody(req.body, ["firstname", "username", "password"])) {

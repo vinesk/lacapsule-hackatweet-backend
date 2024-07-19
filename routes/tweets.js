@@ -47,7 +47,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.delete("/:tweets", (req, res) => {
+router.delete("/:tweet", (req, res) => {
   Tweet.deleteOne({ hashtags: req.params.hashtags }).then((data) => {
     res.json({ result: true, data: data });
   });
