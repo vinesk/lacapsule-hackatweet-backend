@@ -49,7 +49,7 @@ router.post("/signin", (req, res) => {
 
   User.findOne({ username: req.body.username }).then((data) => {
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
-      res.json({ result: true, token: data.token });
+      res.json({ result: true, user: {token: data.token, firstname: data.firstname }});
     } else {
       res.json({ result: false, error: "essaie encore" });
     }
