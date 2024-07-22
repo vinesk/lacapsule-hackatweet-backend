@@ -31,8 +31,8 @@ router.post("/signup", (req, res) => {
         token: uid2(32),
       });
 
-      newUser.save().then((newDoc) => {
-        res.json({ result: true, token: newDoc.token });
+      newUser.save().then((user) => {
+        res.json({ result: true, user: user });
       });
     } else {
       res.json({ result: false, error: "tu es déjà inscrit!" });
@@ -49,7 +49,7 @@ router.post("/signin", (req, res) => {
 
   User.findOne({ username: req.body.username }).then((data) => {
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
-      res.json({ result: true, user: {token: data.token, firstname: data.firstname }});
+      res.json({ result: true, user: {token: data.token,firstname: data.firstname }});
     } else {
       res.json({ result: false, error: "essaie encore" });
     }

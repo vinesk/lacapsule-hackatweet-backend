@@ -32,8 +32,9 @@ router.get("/", (req, res) => {
       if (dataTweet) {
         for (let e of dataTweet) {
           dataToSendTweets.push({
-            firstname: e.user.firstname,
+            //firstname: e.user.firstname,
             username: e.user.username,
+            id:e.id,
             message: e.message,
             date: e.date,
             likes: e.likes,
@@ -47,14 +48,28 @@ router.get("/", (req, res) => {
     });
 });
 
-router.delete("/:tweet", (req, res) => {
-  Tweet.deleteOne({ hashtags: req.params.hashtags }).then((data) => {
-    res.json({ result: true, data: data });
-  });
+
+
+// router.delete("/:tweet", (req, res) => {
+//   Tweet.deleteOne({ hashtags: req.params.hashtags }).then((data) => {
+//     res.json({ result: true, data: data });
+//   });
+// });
+
+router.delete("/:id", (req, res) => {
+  Tweet.deleteOne({ _id: req.params.id })
+  .then((data) => {
+    if(data.deletedCount>0){
+      res.json({ result: true, data: data });
+    }else{
+      res.json({ result: false, data: data })
+    }
+   });
 });
 
+
 router.post("/like", (req, res) => {
-  Tweet.findOne({ message: req.body.message })
+  Tweet.findOne({ _id: req.body.id })
     .populate("likes")
     .then((dataTweet) => {
       if (dataTweet) {
@@ -69,11 +84,11 @@ router.post("/like", (req, res) => {
             }
 
             Tweet.findOneAndUpdate(
-              { message: req.body.message },
+              { _id: req.body.id },
               { $set: { likes: newLikes } }
             ).then((dataTweet) => {
               if (dataTweet) {
-                res.json({ result: true });
+                res.json({ result: true ,likes:newLikes});
               } else {
                 res.json({ result: false, error: "tweet pas trouvé" });
               }
